@@ -1,5 +1,39 @@
 ```javascript
-<div id="map" style="width:100%;height:600px;"></div>
+<div id="map" style="width:100%;height:700px;"></div>
+<style>
+    .customoverlay {
+            position:relative;
+            bottom:85px;
+            border-radius:6px;
+            border: 1px solid #ccc;
+            border-bottom:2px solid #ddd;
+            float:left;
+        }
+    .customoverlay .title {
+            display:block;
+            text-align:center;
+            background:#fff;
+        	border-radius:6px;
+            margin-right:0px;
+            padding:10px 15px;
+            font-size:14px;
+            font-weight:bold;
+        }
+    .customoverlay:after {
+            content:'';
+            position:absolute;
+            margin-left:-12px;
+            left:50%;
+            bottom:-12px;
+            width:22px;
+            height:12px;
+            background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+        }
+    .customoverlay:nth-of-type(n) {
+        border:0; 
+        box-shadow:0px 1px 2px #888;
+    }
+	</style>
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
     mapOption = { 
@@ -52,34 +86,20 @@ for (var i = 0; i < positions.length; i ++) {
         image : markerImage // 마커 이미지 
     });
     
-    // 인포윈도우
-    var iwContent =  '<div class="customoverlay">' +
+    // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    var content =  '<div class="customoverlay">' +
     '    <span class="title">' + positions[i].title + '</span>'
-    '</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    iwPosition = positions[i].latlng;
+    '</div>';
+    // 커스텀 오버레이가 표시될 위치입니다 
+    var position = positions[i].latlng;
     
-   var customOverlay = new kakao.maps.CustomOverlay({
+    // 커스텀 오버레이를 생성합니다
+    var customOverlay = new kakao.maps.CustomOverlay({
         map: map,
-        position: iwPosition,
-        content: iwContent,
-        yAnchor: 2 
+        position: position,
+        content: content,
+        yAnchor: 0 
     });
-    
-    // 인포윈도우를 생성합니다
-    //var infowindow = new kakao.maps.InfoWindow({
-    //    position : iwPosition, 
-    //    content : iwContent 
-	//});
-    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-	//infowindow.open(map, marker); 
 }
 </script>
-```
-
-```css
-.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 ```
